@@ -49,8 +49,10 @@ jobs:
           path: dist
       - name: Run isolated Paper smoke
         run: |
+          plugin_jar="$(find dist -type f -name 'OrzMCPluginTemplate-*.jar' -print -quit)"
+          test -n "$plugin_jar"
           python3 scripts/smoke-paper.py \
-            --plugin-jar dist/OrzMCPluginTemplate-0.1.0-SNAPSHOT.jar \
+            --plugin-jar "$plugin_jar" \
             --work-dir "$RUNNER_TEMP/paper-smoke"
       - name: Upload Paper smoke evidence
         if: always()
