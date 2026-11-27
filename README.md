@@ -7,7 +7,7 @@ Reusable Agent-friendly Paper plugin template.
 - `plugin-paper`: Paper adapter and plugin entry point
 - Traditional `plugin.yml` descriptor
 - Paper Lifecycle API + Brigadier command
-- Lifecycle-managed modules with startup rollback and reverse shutdown
+- Lifecycle-managed modules with startup rollback and reverse shutdown\n- Typed immutable configuration, schema migration, validation and transactional reload
 - JUnit 5 and GitHub Actions CI
 - Folia support is not declared in this baseline
 
