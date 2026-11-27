@@ -34,7 +34,8 @@ public final class ManagedTaskHandle implements TaskHandle {
     }
 
     private void invokeCancellation() {
-        Runnable action = cancellation.get();\n        if (action != null && cancellationInvoked.compareAndSet(false, true)) action.run();
+        Runnable action = cancellation.get();
+        if (action != null && cancellationInvoked.compareAndSet(false, true)) action.run();
     }
 
     @Override public TaskState state() { return state.get(); }
