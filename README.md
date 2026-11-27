@@ -14,7 +14,7 @@ Reusable Agent-friendly Paper plugin template.
 Paper API target is centralized in `gradle.properties` (26.3).
 
 ## Build
-Requires JDK 25+; run `./gradlew clean check build`. Output JAR: `plugin-paper/build/libs/`.
+Requires JDK 25+; run `gradle clean check build` (the wrapper is being added in the next bootstrap pass). Output JAR: `plugin-paper/build/libs/`.
 
 ## Verify
 Copy the JAR to a Paper 26.3 server's `plugins/` directory and run `/template`.
