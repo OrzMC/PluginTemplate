@@ -43,7 +43,8 @@ jobs:
           build-mode: manual
 
       - name: Build analyzed Java sources
-        run: ./gradlew --no-daemon clean check build
+        # Prevent FROM-CACHE compilation: CodeQL must observe javac invocations.
+        run: ./gradlew --no-daemon --no-build-cache --rerun-tasks clean check build
 
       # Fork PRs receive a read-only GITHUB_TOKEN. Keep analysis available,
       # but only upload SARIF when the workflow has repository write access.
