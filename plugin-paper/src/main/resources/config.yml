@@ -1,0 +1,4 @@
+# Plugin configuration schema. Do not edit schema-version manually.
+schema-version: 1
+enabled: true
+message: "OrzMC PluginTemplate is running."
