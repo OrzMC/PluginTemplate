@@ -16,7 +16,7 @@
 - [ ] Only then consider folia-supported: true
 ## P3 — Quality
 - [ ] MockBukkit integration tests
-- [ ] Real Paper smoke automation, JAR inspection, secret/dependency scanning
+- [x] Real Paper smoke runner + EULA-gated GitHub Actions job (first authorized runtime run pending)\n- [ ] Secret/dependency scanning
 - [ ] Nightly compatibility checks
 ## P4 — Initialization and release
 - [ ] Parameterized project/package/command identity and dry-run initializer
