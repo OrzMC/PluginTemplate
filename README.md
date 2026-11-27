@@ -1,16 +1,22 @@
 # OrzMC PluginTemplate
 
-A reusable, Agent-friendly Paper plugin project template.
+Reusable Agent-friendly Paper plugin template.
 
-> Bootstrap repository initialized. The first implementation is being developed on a dedicated feature branch; see the project roadmap before using this repository as a template.
+- Java 25, Gradle Kotlin DSL
+- `plugin-core`: platform-independent Java
+- `plugin-paper`: Paper adapter and plugin entry point
+- Traditional `plugin.yml` descriptor
+- Paper Lifecycle API + Brigadier command
+- Lifecycle-managed modules with startup rollback and reverse shutdown
+- JUnit 5 and GitHub Actions CI
+- Folia support is not declared in this baseline
 
-## Current scope
+Paper API target is centralized in `gradle.properties` (26.3).
 
-- Java 25
-- Gradle Kotlin DSL
-- Paper-first; Folia support is not declared until independently implemented and verified
-- Core / Paper separation
-- Lifecycle-managed modules
-- Tests and CI
+## Build
+Requires JDK 25+; run `./gradlew clean check build`. Output JAR: `plugin-paper/build/libs/`.
 
-See [docs/roadmap.md](docs/roadmap.md) for the implementation plan.
+## Verify
+Copy the JAR to a Paper 26.3 server's `plugins/` directory and run `/template`.
+
+See [docs/architecture.md](docs/architecture.md) and [docs/roadmap.md](docs/roadmap.md). No implementation code has been copied from RealTime or OrzMCPlugin; both remain read-only references. The template repository LICENSE decision is pending maintainer confirmation.
