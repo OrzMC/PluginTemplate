@@ -15,7 +15,9 @@ Paper API target is centralized in `gradle.properties` (26.3).
 
 ## Build
 
-Requires JDK 25+:
+Requires JDK 25 as the default `java`/`javac` (or `JAVA_HOME` pointing at a JDK 25 install); the build uses the Java 25 toolchain and `--release 25`, so an older JDK cannot compile it. Verify with `java -version` before building.
+
+Repository text files are normalized to LF by `.gitattributes` (only `*.bat` keeps CRLF), so `./gradlew` runs directly on Linux, macOS and WSL.
 
 ```bash
 ./gradlew --no-daemon clean check build
@@ -27,5 +29,7 @@ Output JAR: `plugin-paper/build/libs/OrzMCPluginTemplate-0.1.0-SNAPSHOT.jar`.
 ## Runtime acceptance
 
 The local-agent handoff and isolated Paper 26.3 runtime acceptance procedure are documented in [docs/real-server-acceptance.md](docs/real-server-acceptance.md). A local coding agent should execute that procedure after cloning the repository and record observed results there. Never use or modify the production OrzMC server for this test.
+
+The current record shows the Paper 26.3 baseline as passed (plugin enabled, `/template` response, clean module shutdown, process exit status 0). See the [final verdict](docs/real-server-acceptance.md#final-verdict).
 
 See [docs/architecture.md](docs/architecture.md) and [docs/roadmap.md](docs/roadmap.md). No implementation code has been copied from RealTime or OrzMCPlugin; both remain read-only references. The template repository LICENSE decision is pending maintainer confirmation.

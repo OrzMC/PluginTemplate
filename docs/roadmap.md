@@ -5,7 +5,7 @@
 - [x] Traditional plugin.yml and minimal Brigadier command
 - [x] JUnit lifecycle tests and CI workflow
 - [x] Add Gradle Wrapper 9.2.1 and verify clean build in GitHub Actions
-- [ ] Verify plugin startup and command on a real Paper 26.3 server ([acceptance procedure](real-server-acceptance.md))
+- [x] Verify plugin startup and command on a real Paper 26.3 server ([acceptance procedure](real-server-acceptance.md), [record](real-server-acceptance.md#final-verdict))
 - [ ] Confirm repository LICENSE with maintainer
 ## P2 — Runtime
 - [ ] Typed config, validation and migration

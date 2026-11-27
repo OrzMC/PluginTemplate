@@ -95,40 +95,65 @@ The local agent must update the record below with observed values. Include only 
 
 | Check | Result | Evidence |
 |---|---|---|
-| JDK 25 | Pending | |
-| Paper 26.3 | Pending | |
-| Gradle clean/check/build | Pending | |
-| JAR inspection | Pending | |
-| Plugin enabled | Pending | |
-| Startup lifecycle log | Pending | |
-| `/template` response | Pending | |
-| Normal shutdown lifecycle log | Pending | |
-| Process exit | Pending | |
+| JDK 25 | Pass | `openjdk version "25.0.5.1" 2026-11-17 LTS`, Temurin-25.0.5.1+2-LTS (x64); Gradle reported `Launcher JVM: 25.0.5.1` |
+| Paper 26.3 | Pass | `This server is running Paper version 26.3-263-main@894b2e1 (2026-11-26T11:36:06Z) (Implementing API version 26.3.build.263-stable)` |
+| Gradle clean/check/build | Pass | `./gradlew --no-daemon clean check build` → `BUILD SUCCESSFUL in 19s`, 10 actionable tasks; `plugin-core` tests 3 passed / 0 failed / 0 skipped (`ModuleManagerTest`) |
+| JAR inspection | Pass | `bash scripts/inspect-jar.sh` → `JAR structure is valid: plugin-paper/build/libs/OrzMCPluginTemplate-0.1.0-SNAPSHOT.jar` (entry checks passed, no bundled `org/bukkit/` or `io/papermc/paper/` classes) |
+| Plugin enabled | Pass | startup: `[OrzMCPluginTemplate] Enabling OrzMCPluginTemplate v0.1.0-SNAPSHOT`; console `plugins` → `Server Plugins (1):` / `- OrzMCPluginTemplate` |
+| Startup lifecycle log | Pass | `[OrzMCPluginTemplate] Template module started.` followed by `[OrzMCPluginTemplate] Plugin enabled.` |
+| `/template` response | Pass | console `template` → `[11:56:35 INFO]: OrzMC PluginTemplate is running.` (no permission or registration error) |
+| Normal shutdown lifecycle log | Pass | `[OrzMCPluginTemplate] Disabling OrzMCPluginTemplate v0.1.0-SNAPSHOT` → `[OrzMCPluginTemplate] Template module stopped.`; no plugin startup/shutdown exception in the full log |
+| Process exit | Pass | console `stop` → `Stopping server`, chunk/region I/O halted, JVM process exited with status `0` |
 
 ### Run details
 
-- Date/time:
-- OS:
-- Java vendor/version:
-- Paper version/build:
-- Test server directory (use a repository-relative or redacted label, not a private absolute path):
-- Test port:
-- Artifact SHA-256:
-- Agent/tool used:
+- Date/time: 2026-11-27 11:56 (UTC+08:00), server log timestamps in local time
+- OS: Windows host with WSL2, `Linux 6.18.58.1-microsoft-standard-WSL2` (amd64)
+- Java vendor/version: Eclipse Adoptium Temurin `25.0.5.1+2-LTS` (x64), installed locally as `<local JDK 25 install>`; the JVM used to run Paper was this same JDK 25
+- Paper version/build: `26.3` build `263` (channel `STABLE`, commit `894b2e1eafd3630abe89d9701508834aa5a33977`, build time `2026-11-26T11:36:06Z`)
+- Test server directory (use a repository-relative or redacted label, not a private absolute path): `<system temp>/acceptance/server` — created outside the repository for this run and deleted afterwards
+- Test port: `25599` (dedicated `server-port` in the disposable `server.properties`; no production or other local service uses it)
+- Artifact SHA-256: `8b6fba072d244d221ae6e0483aed75ae1c3638f4b81ead344fb1ec59de5c1364`
+- Server JAR: official PaperMC download service, `paper-26.3-263.jar`, SHA-256 `949a1b05063d5bfd9ca324509d1d4726f2051e5bc81bc5f6f5d96f56f3a6e392` (matches the published checksum)
+- Server JVM flags: `-Xms512M -Xmx1G` (`nogui`), no production data copied
+- Agent/tool used: pi coding agent; Gradle `9.2.1` wrapper; console driven through a local `tmux` session (no remote management port opened)
 
 ### Log excerpts
 
 ```text
-[Paste only the relevant, redacted startup, command, and shutdown excerpts here.]
+[11:56:20 INFO]: This server is running Paper version 26.3-263-main@894b2e1 (2026-11-26T11:36:06Z) (Implementing API version 26.3.build.263-stable)
+[11:56:21 INFO]: [OrzMCPluginTemplate] Loading server plugin OrzMCPluginTemplate v0.1.0-SNAPSHOT
+[11:56:28 INFO]: [OrzMCPluginTemplate] Enabling OrzMCPluginTemplate v0.1.0-SNAPSHOT
+[11:56:28 INFO]: [OrzMCPluginTemplate] Template module started.
+[11:56:28 INFO]: [OrzMCPluginTemplate] Plugin enabled.
+[11:56:28 INFO]: Done (18.264s)! For help, type "help"
+
+[11:56:32 INFO]: Server Plugins (1):
+[11:56:32 INFO]: Bukkit Plugins:
+[11:56:32 INFO]:  - OrzMCPluginTemplate
+
+[11:56:35 INFO]: OrzMC PluginTemplate is running.
+
+[11:56:38 INFO]: System chat: Stopping the server
+[11:56:38 INFO]: Stopping server
+[11:56:38 INFO]: [OrzMCPluginTemplate] Disabling OrzMCPluginTemplate v0.1.0-SNAPSHOT
+[11:56:38 INFO]: [OrzMCPluginTemplate] Template module stopped.
+[11:56:38 INFO]: Waiting for all RegionFile I/O tasks to complete...
+[11:56:38 INFO]: All RegionFile I/O tasks to complete
 ```
 
 ### Blockers / deviations
 
-- None recorded.
+- None blocking. Notes from this run:
+  - The machine had no JDK 25 before the run; the agent installed Temurin 25.0.5.1+2 locally (and removed the previous local JDK 17) so the required toolchain was available. This is a local environment change, not a repository change.
+  - The disposable server had no `eula.txt`. The agent stopped, reported the blocker, and wrote `eula=true` only after the maintainer explicitly confirmed review and acceptance of the Minecraft EULA.
+  - The server logged the standard `offline mode` and `running as root` warnings; both are expected for a throwaway local test server and are unrelated to the plugin.
+  - The repository working tree previously stored CRLF line endings, which broke `./gradlew` under WSL. `.gitattributes` now normalizes text files to LF (only `*.bat` keeps CRLF) and the working tree was renormalized before this recorded build.
 
 ### Final verdict
 
-- Pending — do not mark P1 runtime acceptance complete until every required check above has observed passing evidence.
+- Passed — P1 runtime acceptance is complete for the Paper 26.3 baseline: JDK 25, Paper 26.3 build 263, build/JAR checks, plugin enablement, `/template` response, clean module shutdown, and process exit status 0 were all observed.
+- Scope reminder: this proves Paper 26.3 only. Folia remains unsupported and undeclared.
 
 ## Scope
 
