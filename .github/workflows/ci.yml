@@ -20,6 +20,8 @@ jobs:
         run: ./gradlew --no-daemon clean check build
       - name: Validate Paper smoke runner syntax
         run: python3 -m py_compile scripts/smoke-paper.py
+      - name: Test Paper smoke EULA fail-closed guard
+        run: python3 -m unittest discover -s tests -p 'test_*.py' -v
       - name: Inspect plugin JAR
         run: bash scripts/inspect-jar.sh
       - uses: actions/upload-artifact@v7
