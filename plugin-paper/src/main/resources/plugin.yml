@@ -3,3 +3,10 @@ version: '${version}'
 main: cn.orzmc.template.paper.TemplatePlugin
 api-version: '26.3'
 description: A reusable Paper plugin template
+permissions:
+  orzmc.template.admin:
+    description: Access template administration commands.
+    default: op
+  orzmc.template.admin.reload:
+    description: Reload the template configuration.
+    default: op

@@ -9,7 +9,7 @@
 - [x] Confirm repository LICENSE with maintainer (MIT; merged to main)
 ## P2 — Runtime\n\nP2.0 架构设计草案见 [docs/p2-runtime-design.md](p2-runtime-design.md)。建议顺序：资源所有权/生命周期 → 类型化配置 → Listener 与命令 → Scheduler Paper 适配 →（有证据后）Folia。GitHub Actions Paper smoke 设计见 [父仓库文档](https://github.com/OrzMC/OrzMC/blob/main/docs/plugin-template/github-actions-smoke.md)。
 - [x] Module-owned ResourceScope, reverse-order cleanup, startup rollback and shutdown failure isolation (PR #4; CI Run #41)\n- [x] Typed config, validation and schema v0→v1 migration (PR #6 merged; CI Run #45 passed)
-- [ ] Listener ownership and cleanup (will use module ResourceScope)
+- [ ] Listener ownership and cleanup (implementation in progress: PaperListenerRegistrar binds unregister to ModuleContext ResourceScope)
 - [ ] Permission conventions and command helpers
 - [ ] Scheduler port and Paper adapter (task handles will be registered in module ResourceScope)
 - [ ] Folia global/region/entity/async adapters and real smoke tests
