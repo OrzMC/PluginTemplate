@@ -1,6 +1,6 @@
 # P2 Runtime Architecture Design
 
-> Status: P2.0 design baseline; P2.1 ResourceScope/lifecycle and P2.2 typed configuration implementation merged
+> Status: P2.0 design baseline; P2.1–P2.4 implementation merged
 > Updated: 2026-11-27
 > Scope: PluginTemplate only. `OrzMC/RealTime` and `OrzMC/OrzMCPlugin` remain read-only references.
 
@@ -193,12 +193,14 @@ PR build/unit tests remain available regardless of the EULA gate. Nightly latest
 
 | Step | Scope | Exit condition |
 |---|---|---|
-| P2.0 | This architecture and CI design | Maintainer review of config, ownership, command and scheduler contracts |
-| P2.1 | ResourceScope + lifecycle hardening | **Completed**: PR #4 merged; CI Run #41 passed, including rollback and cleanup tests |\n| P2.2 | Typed config + validation + migration | **Completed**: PR #6 merged (`a21fe30`); CI Run #45 passed (Gradle Verify, JAR inspection, artifact upload) |\n| P2.3 | Listener ownership + permission-aware command helpers | Implementation in progress: module-scoped Paper listener registrar, centralized permission nodes and `/template reload` |
-| P2.2 | Typed configuration and migration | Next: transactional load/reload and migration tests |
-| P2.3 | Listener ownership + command/permission helpers | Registration cleanup and command integration tests pass |
-| P2.4 | Scheduler ports + Paper adapter | Implementation in progress: Paper main-thread/async one-shot adapter, managed task state and ResourceScope cancellation; no Folia claim |
-| P2.5 | Folia adapter (conditional) | Real Folia smoke and thread-safety review pass |
+| P2.0 | Runtime architecture and CI design | **Completed**: architecture baseline merged |
+| P2.1 | ResourceScope + lifecycle hardening | **Completed**: PR #4 merged; CI Run #41 passed |
+| P2.2 | Typed config + validation + migration | **Completed**: PR #6 merged (`a21fe30`); CI Run #45 passed |
+| P2.3 | Listener ownership + permission-aware command helpers | **Completed**: PR #8 merged (`43dffe3`); CI Run #49 passed |
+| P2.4 | Paper scheduler adapter + managed task handles | **Completed**: PR #9 merged (`9c593fe`); CI Run #53 passed; real runtime smoke pending |
+| P2.5 | Folia adapter (conditional) | Separate global/region/entity/async adapters, thread-safety review and real Folia smoke; no support claim before all pass |
+
+P2.4 deliberately keeps scheduling in the Paper adapter: no platform-independent Core use case currently needs to request scheduling. Paper exposes main-thread and async one-shot operations only. Region/entity scheduling is not emulated on Paper; it belongs to a future Folia-specific adapter.
 
 The order intentionally puts resource ownership before listeners and scheduler tasks: later runtime features must use the same lifecycle cleanup mechanism.
 
