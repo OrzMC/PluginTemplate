@@ -1,0 +1,5 @@
+name: OrzMCPluginTemplate
+version: '${version}'
+main: cn.orzmc.template.paper.TemplatePlugin
+api-version: '26.3'
+description: A reusable Paper plugin template
