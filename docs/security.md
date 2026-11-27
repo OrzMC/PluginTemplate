@@ -14,7 +14,7 @@ The dependency graph powers GitHub's dependency inventory and Dependabot vulnera
 
 `.github/workflows/codeql.yml` runs advanced CodeQL analysis for Java/Kotlin on pushes to `main`, pull requests targeting `main`, weekly on Monday at 11:30 Beijing time, and manual dispatch.
 
-The workflow uses CodeQL Action v4, JDK 25, Gradle's configured wrapper and a manual build. Building between CodeQL initialization and analysis improves Java extraction accuracy for this Gradle project. Fork pull requests are analyzed but do not upload SARIF because their `GITHUB_TOKEN` is read-only.
+The workflow uses CodeQL Action v4, JDK 25, Gradle's configured wrapper and a manual build. It disables Gradle's build cache and reruns tasks so CodeQL observes the Java compiler invocations instead of restoring compiled classes from cache. Building between CodeQL initialization and analysis improves Java extraction accuracy for this Gradle project. Fork pull requests are analyzed but do not upload SARIF because their `GITHUB_TOKEN` is read-only.
 
 **Do not enable CodeQL default setup at the same time as this advanced workflow.** GitHub treats default and advanced setup as alternative configuration modes. If default setup is already enabled, review it under Settings → Security → Advanced Security before relying on this workflow; choose one mode and disable the other.
 
