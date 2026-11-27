@@ -86,6 +86,26 @@ def download_paper(version: str, build_number: int, expected_sha256: str, destin
     }
 
 
+def probe_paper_help(paper_jar: Path, work_dir: Path) -> dict[str, Any]:
+    """Probe CLI help with a hard timeout before creating the EULA file."""
+    command = ["java", "-jar", str(paper_jar), "--help"]
+    result: dict[str, Any] = {"command": command, "timeout_seconds": 20, "recognized": False}
+    try:
+        completed = subprocess.run(command, cwd=work_dir, capture_output=True, text=True,
+                                   encoding="utf-8", errors="replace", timeout=20, check=False)
+        output = (completed.stdout + completed.stderr).strip()
+        result.update({"exit_code": completed.returncode,
+                       "recognized": completed.returncode == 0 and any(
+                           marker in output.lower() for marker in ("usage", "options", "--nogui")),
+                       "output": output[-12000:]})
+    except subprocess.TimeoutExpired as error:
+        stdout = error.stdout or ""
+        stderr = error.stderr or ""
+        if isinstance(stdout, bytes): stdout = stdout.decode("utf-8", errors="replace")
+        if isinstance(stderr, bytes): stderr = stderr.decode("utf-8", errors="replace")
+        result.update({"timed_out": True, "output": (str(stdout) + str(stderr))[-12000:]})
+    return result
+
 def read_log(path: Path) -> str:
     try:
         return path.read_text(encoding="utf-8", errors="replace")
@@ -146,6 +166,9 @@ def run_smoke(args: argparse.Namespace) -> dict[str, Any]:
     paper = download_paper(args.paper_version, args.paper_build, args.paper_sha256, paper_jar)
     shutil.copy2(plugin_jar, plugins_dir / plugin_jar.name)
 
+    # Probe before generating eula.txt; a broken/unsupported --help must not hang CI.
+    paper_help = probe_paper_help(paper_jar, work_dir)
+
     # The maintainer's one-time repository variable is checked by the workflow.
     # This file only records that authorized choice for this disposable runner.
     (work_dir / "eula.txt").write_text("eula=true\n", encoding="utf-8")
@@ -173,8 +196,15 @@ def run_smoke(args: argparse.Namespace) -> dict[str, Any]:
     report: dict[str, Any] = {
         "status": "running",
         "paper": paper,
+        "paper_help_probe": paper_help,
         "plugin": {"file": plugin_jar.name, "sha256": plugin_sha256},
-        "checks": {},
+        "runtime": {
+            "java_version": subprocess.run(["java", "-version"], capture_output=True, text=True, encoding="utf-8", errors="replace", check=False).stderr.strip(),
+            "launch_command": ["java", "-Xms512M", "-Xmx1G", "-jar", str(paper_jar), "--nogui"],
+            "server_properties": {"server-ip": "127.0.0.1", "server-port": 25565, "online-mode": False, "enable-rcon": False, "enable-query": False},
+            "eula_file_generated_after_workflow_authorization": True,
+        },
+        "checks": {"paper_help_probe_completed": True},
     }
     process: subprocess.Popen[str] | None = None
 
