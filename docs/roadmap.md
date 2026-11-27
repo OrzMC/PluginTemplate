@@ -24,9 +24,9 @@ P2.0 架构设计见 [docs/p2-runtime-design.md](p2-runtime-design.md)。建议�
 ## P3 — Quality
 
 - [ ] MockBukkit integration tests
-- [x] Real Paper smoke runner + EULA-gated GitHub Actions job implemented; first authorized runtime run pending
-- [ ] Nightly latest-stable compatibility checks
-- [ ] Observe at least 3 successful smoke runs and 1 controlled failure; verify logs, timeout, cleanup and artifacts
+- [x] Real Paper smoke runner + EULA-gated GitHub Actions job; five real Paper smoke runs passed (CI Runs #61–#65)
+- [x] Daily latest-STABLE Paper 26.3 workflow implemented; first scheduled execution pending ([nightly workflow](../.github/workflows/nightly-paper.yml), [operations](nightly-paper.md))
+- [x] At least 5 successful real Paper smoke runs; startup timeout, command-response timeout, EULA denial and forced process cleanup covered by regression tests (PR #14/#15)
 - [ ] Secret/dependency scanning
 
 ## P4 — Initialization and release
