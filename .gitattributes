@@ -1,0 +1,15 @@
+# Normalize text files to LF in the repository and working tree so builds and
+# scripts behave identically on Linux/macOS and inside WSL. Windows-only
+# launchers keep CRLF.
+* text=auto eol=lf
+
+*.bat text eol=crlf
+*.cmd text eol=crlf
+
+# Binary artifacts must never be converted or diffed as text.
+*.jar binary
+*.png binary
+*.jpg binary
+*.gif binary
+*.ico binary
+*.zip binary
