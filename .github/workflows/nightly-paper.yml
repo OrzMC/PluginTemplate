@@ -1,0 +1,85 @@
+name: Nightly Paper Compatibility
+
+on:
+  schedule:
+    - cron: "23 2 * * *"
+  workflow_dispatch:
+    inputs:
+      paper_version:
+        description: Paper Minecraft version to validate
+        required: true
+        default: "26.3"
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: nightly-paper-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  paper-nightly:
+    # This job starts only after the maintainer has accepted the Minecraft EULA.
+    if: ${{ vars.MINECRAFT_EULA_ACCEPTED == 'true' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      PAPER_VERSION: ${{ github.event.inputs.paper_version || '26.3' }}
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-java@v6
+        with:
+          distribution: temurin
+          java-version: "25"
+      - uses: gradle/actions/setup-gradle@v6
+
+      - name: Build plugin
+        run: ./gradlew --no-daemon clean check build
+
+      - name: Resolve latest STABLE Paper build and checksum
+        id: paper
+        shell: bash
+        run: |
+          set -euo pipefail
+          response="$(curl --fail --silent --show-error \
+            --retry 3 --retry-delay 2 \
+            "https://fill.papermc.io/v3/projects/paper/versions/${PAPER_VERSION}/builds")"
+          stable_build="$(jq -cer '[.[] | select(.channel == "STABLE")] | max_by(.id)' <<<"$response")"
+          build_id="$(jq -er '.id' <<<"$stable_build")"
+          checksum="$(jq -er '.downloads["server:default"].checksums.sha256' <<<"$stable_build")"
+          [[ "$checksum" =~ ^[0-9a-fA-F]{64}$ ]]
+          echo "version=$PAPER_VERSION" >> "$GITHUB_OUTPUT"
+          echo "build=$build_id" >> "$GITHUB_OUTPUT"
+          echo "sha256=$checksum" >> "$GITHUB_OUTPUT"
+          {
+            echo "### Nightly Paper target"
+            echo "- Version: `$PAPER_VERSION`"
+            echo "- Latest STABLE build: `$build_id`"
+            echo "- SHA-256: `$checksum`"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Run isolated Paper smoke
+        env:
+          MINECRAFT_EULA_ACCEPTED: ${{ vars.MINECRAFT_EULA_ACCEPTED }}
+        run: |
+          plugin_jar="$(find plugin-paper/build/libs -type f -name 'OrzMCPluginTemplate-*.jar' -print -quit)"
+          test -n "$plugin_jar"
+          python3 scripts/smoke-paper.py \
+            --plugin-jar "$plugin_jar" \
+            --work-dir "$RUNNER_TEMP/paper-nightly" \
+            --paper-version "${{ steps.paper.outputs.version }}" \
+            --paper-build "${{ steps.paper.outputs.build }}" \
+            --paper-sha256 "${{ steps.paper.outputs.sha256 }}"
+
+      - name: Upload nightly Paper evidence
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: paper-nightly-evidence-${{ github.run_id }}
+          path: |
+            ${{ runner.temp }}/paper-nightly/smoke-report.json
+            ${{ runner.temp }}/paper-nightly/logs/server.log
+            ${{ runner.temp }}/paper-nightly/server.properties
+            ${{ runner.temp }}/paper-nightly/eula.txt
+          if-no-files-found: warn
