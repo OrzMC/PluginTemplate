@@ -4,7 +4,6 @@ import org.gradle.api.tasks.testing.Test
 import org.gradle.jvm.toolchain.JavaLanguageVersion
 plugins {
     base
-    id("com.gradleup.shadow") version "9.2.2" apply false
 }
 allprojects {
     group = "cn.orzmc.template"
