@@ -61,5 +61,9 @@ jobs:
         uses: actions/upload-artifact@v7
         with:
           name: paper-smoke-evidence
-          path: ${{ runner.temp }}/paper-smoke/
+          path: |
+            ${{ runner.temp }}/paper-smoke/smoke-report.json
+            ${{ runner.temp }}/paper-smoke/logs/server.log
+            ${{ runner.temp }}/paper-smoke/server.properties
+            ${{ runner.temp }}/paper-smoke/eula.txt
           if-no-files-found: warn
