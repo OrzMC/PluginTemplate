@@ -32,4 +32,4 @@ The local-agent handoff and isolated Paper 26.3 runtime acceptance procedure are
 
 The current record shows the Paper 26.3 baseline as passed (plugin enabled, `/template` response, clean module shutdown, process exit status 0). See the [final verdict](docs/real-server-acceptance.md#final-verdict).
 
-See [docs/architecture.md](docs/architecture.md) and [docs/roadmap.md](docs/roadmap.md). No implementation code has been copied from RealTime or OrzMCPlugin; both remain read-only references. The template repository LICENSE decision is pending maintainer confirmation.
+See [docs/architecture.md](docs/architecture.md) and [docs/roadmap.md](docs/roadmap.md). No implementation code has been copied from RealTime or OrzMCPlugin; both remain read-only references. This repository is licensed under the [MIT License](LICENSE).
