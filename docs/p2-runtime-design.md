@@ -1,6 +1,6 @@
 # P2 Runtime Architecture Design
 
-> Status: P2.0 design baseline; P2.1 ResourceScope/lifecycle implementation merged
+> Status: P2.0 design baseline; P2.1 ResourceScope/lifecycle and P2.2 typed configuration implementation in review
 > Updated: 2026-11-27
 > Scope: PluginTemplate only. `OrzMC/RealTime` and `OrzMC/OrzMCPlugin` remain read-only references.
 
@@ -185,7 +185,7 @@ A Paper smoke pass is not Folia evidence.
 
 The Paper smoke design is documented in the parent repository at [github-actions-smoke.md](https://github.com/OrzMC/OrzMC/blob/main/docs/plugin-template/github-actions-smoke.md).
 
-The real-server job uses GitHub-hosted runners, no self-hosted runner, no production network, no RCON and no long-lived credentials. It must remain gated until a maintainer explicitly accepts the Minecraft EULA and sets the repository variable `MINECRAFT_EULA_ACCEPTED=true`.
+The real-server job uses GitHub-hosted runners, no self-hosted runner, no production network, no RCON and no long-lived credentials. Once a maintainer has reviewed and accepted the Minecraft EULA, the maintainer sets the repository variable `MINECRAFT_EULA_ACCEPTED=true` as a one-time authorization. The workflow then writes `eula=true` to the disposable server's `eula.txt` before launch; no interactive prompt or per-run manual step is needed. Minecraft does not provide a standard `--accept-eula` server launch argument. The workflow must fail closed when the authorization variable is absent or not exactly `true`.
 
 PR build/unit tests remain available regardless of the EULA gate. Nightly latest-stable compatibility checks are separate from the pinned PR smoke.
 
@@ -194,7 +194,7 @@ PR build/unit tests remain available regardless of the EULA gate. Nightly latest
 | Step | Scope | Exit condition |
 |---|---|---|
 | P2.0 | This architecture and CI design | Maintainer review of config, ownership, command and scheduler contracts |
-| P2.1 | ResourceScope + lifecycle hardening | **Completed**: PR #4 merged; CI Run #41 passed, including rollback and cleanup tests |
+| P2.1 | ResourceScope + lifecycle hardening | **Completed**: PR #4 merged; CI Run #41 passed, including rollback and cleanup tests |\n| P2.2 | Typed config + validation + migration | Implementation in review: immutable settings, Core codec/migrator/service, Paper YAML adapter, transactional publication and unit tests |
 | P2.2 | Typed configuration and migration | Next: transactional load/reload and migration tests |
 | P2.3 | Listener ownership + command/permission helpers | Registration cleanup and command integration tests pass |
 | P2.4 | Scheduler ports + Paper adapter | Fake tests and real Paper smoke pass |
