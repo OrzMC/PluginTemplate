@@ -1,6 +1,6 @@
 # P2 Runtime Architecture Design
 
-> Status: P2.0 design proposal; implementation not started
+> Status: P2.0 design baseline; P2.1 ResourceScope/lifecycle implementation merged
 > Updated: 2026-11-27
 > Scope: PluginTemplate only. `OrzMC/RealTime` and `OrzMC/OrzMCPlugin` remain read-only references.
 
@@ -194,8 +194,8 @@ PR build/unit tests remain available regardless of the EULA gate. Nightly latest
 | Step | Scope | Exit condition |
 |---|---|---|
 | P2.0 | This architecture and CI design | Maintainer review of config, ownership, command and scheduler contracts |
-| P2.1 | ResourceScope + lifecycle hardening | Failure rollback and cleanup tests pass |
-| P2.2 | Typed configuration and migration | Transactional load/reload and migration tests pass |
+| P2.1 | ResourceScope + lifecycle hardening | **Completed**: PR #4 merged; CI Run #41 passed, including rollback and cleanup tests |
+| P2.2 | Typed configuration and migration | Next: transactional load/reload and migration tests |
 | P2.3 | Listener ownership + command/permission helpers | Registration cleanup and command integration tests pass |
 | P2.4 | Scheduler ports + Paper adapter | Fake tests and real Paper smoke pass |
 | P2.5 | Folia adapter (conditional) | Real Folia smoke and thread-safety review pass |
