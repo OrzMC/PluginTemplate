@@ -23,7 +23,7 @@ P2.0 架构设计见 [docs/p2-runtime-design.md](p2-runtime-design.md)。建议�
 
 ## P3 — Quality
 
-- [x] Paper 26.3 MockBukkit integration tests for Listener ownership and Paper YAML config store round-trip/backup/atomic replacement; skipped tests fail the build and JUnit XML/HTML reports are retained (PR #17 and follow-up test PR; Paper API test runtime pinned to MockBukkit's matching build)
+- [x] Paper 26.3 MockBukkit integration tests for Listener ownership and Paper YAML config store round-trip/backup/atomic replacement; skipped tests fail the build and JUnit XML/HTML reports are retained (PR #17 and PR #25; Paper API test runtime pinned to MockBukkit's matching build)
 - [x] Real Paper smoke runner + EULA-gated GitHub Actions job; real Paper smoke runs passed repeatedly (CI Runs #61–#65 and later CI runs)
 - [x] Daily latest-STABLE Paper 26.3 workflow implemented; first scheduled execution pending ([nightly workflow](../.github/workflows/nightly-paper.yml), [operations](nightly-paper.md))
 - [x] At least 19 successful real Paper smoke runs; startup timeout, command-response timeout, EULA denial and forced process cleanup covered by regression tests (PR #14/#15)
