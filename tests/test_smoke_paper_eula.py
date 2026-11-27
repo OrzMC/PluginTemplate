@@ -124,6 +124,7 @@ class FailurePathTests(unittest.TestCase):
                 patch.dict(os.environ, {"MINECRAFT_EULA_ACCEPTED": "true"}),
                 patch.object(smoke_paper, "download_paper", return_value={"version": "26.3"}),
                 patch.object(smoke_paper, "probe_paper_help", return_value={"recognized": True}),
+                patch.object(smoke_paper.subprocess, "run", return_value=smoke_paper.subprocess.CompletedProcess(["java", "-version"], 0, "", "openjdk version \"25\"")),
                 patch.object(smoke_paper.subprocess, "Popen", return_value=process),
                 patch.object(smoke_paper, "wait_for_log", side_effect=TimeoutError("startup timeout")),
             ):
