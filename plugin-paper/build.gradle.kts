@@ -1,5 +1,8 @@
 import org.gradle.api.tasks.SourceSetContainer
 import org.gradle.api.tasks.testing.Test
+import org.gradle.api.tasks.testing.TestDescriptor
+import org.gradle.api.tasks.testing.TestListener
+import org.gradle.api.tasks.testing.TestResult
 
 plugins {
     id("java")
@@ -39,18 +42,24 @@ tasks.withType<Test>().configureEach {
     testLogging {
         events("passed", "skipped", "failed")
     }
-    afterSuite { descriptor, result ->
-        if (descriptor.parent == null) {
-            if (result.testCount == 0) {
-                throw GradleException("Paper integration test suite discovered no tests.")
-            }
-            val skippedTests = result.testCount - result.successfulTestCount - result.failedTestCount
-            if (skippedTests > 0) {
-                throw GradleException(
-                    "Paper integration test suite contains $skippedTests skipped tests; " +
-                        "MockBukkit unsupported operations must be handled explicitly."
-                )
+    addTestListener(object : TestListener {
+        override fun beforeSuite(suite: TestDescriptor) = Unit
+        override fun beforeTest(testDescriptor: TestDescriptor) = Unit
+        override fun afterTest(testDescriptor: TestDescriptor, result: TestResult) = Unit
+
+        override fun afterSuite(descriptor: TestDescriptor, result: TestResult) {
+            if (descriptor.parent == null) {
+                if (result.testCount == 0L) {
+                    throw GradleException("Paper integration test suite discovered no tests.")
+                }
+                val skippedTests = result.testCount - result.successfulTestCount - result.failedTestCount
+                if (skippedTests > 0) {
+                    throw GradleException(
+                        "Paper integration test suite contains $skippedTests skipped tests; " +
+                            "MockBukkit unsupported operations must be handled explicitly."
+                    )
+                }
             }
         }
-    }
+    })
 }
