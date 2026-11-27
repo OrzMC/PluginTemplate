@@ -12,6 +12,7 @@ Reusable Agent-friendly Paper plugin template.
 - JUnit 5 and GitHub Actions CI with EULA-gated disposable Paper smoke automation
 - Daily latest-STABLE Paper 26.3 compatibility workflow (10:23 Beijing), with checksum verification and evidence artifacts
 - Failure-path regression tests for startup/command timeouts and process cleanup
+- Paper 26.3 MockBukkit integration test for listener lifecycle; skipped tests fail CI and JUnit reports are retained
 - Folia support is not declared in this baseline
 
 Paper API target is centralized in `gradle.properties` (26.3).
