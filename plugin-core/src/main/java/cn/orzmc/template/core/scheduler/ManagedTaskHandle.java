@@ -7,7 +7,7 @@ import java.util.concurrent.atomic.AtomicReference;
 /** Platform-neutral task state machine used by scheduler adapters. */
 public final class ManagedTaskHandle implements TaskHandle {
     private final AtomicReference<TaskState> state = new AtomicReference<>(TaskState.SCHEDULED);
-    private final AtomicReference<Runnable> cancellation = new AtomicReference<>(() -> {});
+    private final AtomicReference<Runnable> cancellation = new AtomicReference<>();
     private final AtomicBoolean cancellationInvoked = new AtomicBoolean();
 
     public void attachCancellation(Runnable action) {
@@ -34,7 +34,7 @@ public final class ManagedTaskHandle implements TaskHandle {
     }
 
     private void invokeCancellation() {
-        if (cancellationInvoked.compareAndSet(false, true)) cancellation.get().run();
+        Runnable action = cancellation.get();\n        if (action != null && cancellationInvoked.compareAndSet(false, true)) action.run();
     }
 
     @Override public TaskState state() { return state.get(); }
