@@ -1,7 +1,10 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-jar_file="${1:-plugin-paper/build/libs/OrzMCPluginTemplate-0.1.0-SNAPSHOT.jar}"
+jar_file="${1:-}"
+if [[ -z "$jar_file" ]]; then
+  jar_file="$(find plugin-paper/build/libs -maxdepth 1 -name '*.jar' -print -quit)"
+fi
 if [[ ! -f "$jar_file" ]]; then
   echo "Plugin JAR not found: $jar_file" >&2
   exit 1
