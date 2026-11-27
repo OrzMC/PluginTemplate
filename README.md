@@ -8,7 +8,7 @@ Reusable Agent-friendly Paper plugin template.
 - Traditional `plugin.yml` descriptor
 - Paper Lifecycle API + Brigadier command
 - Lifecycle-managed modules with startup rollback and reverse shutdown\n- Typed immutable configuration, schema migration, validation and transactional reload
-- JUnit 5 and GitHub Actions CI
+- JUnit 5 and GitHub Actions CI with EULA-gated disposable Paper smoke automation
 - Folia support is not declared in this baseline
 
 Paper API target is centralized in `gradle.properties` (26.3).
