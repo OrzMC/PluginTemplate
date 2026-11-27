@@ -18,7 +18,9 @@ dependencies {
     testImplementation(platform("org.junit:junit-bom:6.1.3"))
     testImplementation("org.junit.jupiter:junit-jupiter")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher:6.1.3")
-    testImplementation("io.papermc.paper:paper-api:$paperApiVersion")
+    // MockBukkit validates the Paper API's version-specific registries at startup.
+    // Keep this exact API build aligned with the MockBukkit artifact's Paper-Version manifest.
+    testImplementation("io.papermc.paper:paper-api:${providers.gradleProperty("mockBukkitPaperApiVersion").get()}")
     testImplementation("org.mockbukkit.mockbukkit:mockbukkit-v26.3:4.118.0")
 }
 
