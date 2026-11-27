@@ -27,7 +27,8 @@ P2.0 架构设计见 [docs/p2-runtime-design.md](p2-runtime-design.md)。建议�
 - [x] Real Paper smoke runner + EULA-gated GitHub Actions job; real Paper smoke runs passed repeatedly (CI Runs #61–#65 and later CI runs)
 - [x] Daily latest-STABLE Paper 26.3 workflow implemented; first scheduled execution pending ([nightly workflow](../.github/workflows/nightly-paper.yml), [operations](nightly-paper.md))
 - [x] At least 19 successful real Paper smoke runs; startup timeout, command-response timeout, EULA denial and forced process cleanup covered by regression tests (PR #14/#15)
-- [x] Add advanced CodeQL Java/Kotlin analysis workflow with manual Gradle build, PR/main/weekly triggers and fork-safe SARIF upload (this PR)\n- [ ] Verify repository-level Dependency graph, Dependabot alerts/security updates, Secret scanning and push protection settings ([security guide](security.md)); automated dependency submission and weekly version updates are implemented in PR #19
+- [x] Add advanced CodeQL Java/Kotlin analysis workflow with manual Gradle build, PR/main/weekly triggers and fork-safe SARIF upload (PR #24, first PR scan successful)
+- [ ] Verify repository-level Dependency graph, Dependabot alerts/security updates, Secret scanning and push protection settings ([security guide](security.md)); automated dependency submission and weekly version updates are implemented in PR #19
 
 ## P4 — Initialization and release
 
