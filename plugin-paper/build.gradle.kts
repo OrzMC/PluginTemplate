@@ -14,6 +14,12 @@ val coreMainOutput = project(":plugin-core").extensions
 dependencies {
     implementation(project(":plugin-core"))
     compileOnly("io.papermc.paper:paper-api:$paperApiVersion")
+
+    testImplementation(platform("org.junit:junit-bom:6.1.3"))
+    testImplementation("org.junit.jupiter:junit-jupiter")
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher:6.1.3")
+    testImplementation("io.papermc.paper:paper-api:$paperApiVersion")
+    testImplementation("org.mockbukkit.mockbukkit:mockbukkit-v26.3:4.118.0")
 }
 
 tasks.processResources {
