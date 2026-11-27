@@ -18,6 +18,15 @@ jobs:
       - uses: gradle/actions/setup-gradle@v6
       - name: Verify
         run: ./gradlew --no-daemon clean check build
+      - name: Upload JUnit test reports
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: junit-test-reports
+          path: |
+            **/build/test-results/test/*.xml
+            **/build/reports/tests/test/**
+          if-no-files-found: ignore
       - name: Validate Paper smoke runner syntax
         run: python3 -m py_compile scripts/smoke-paper.py
       - name: Test Paper smoke EULA fail-closed guard
