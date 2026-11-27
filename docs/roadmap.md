@@ -4,7 +4,7 @@
 - [x] Core lifecycle contract and rollback-capable module manager
 - [x] Traditional plugin.yml and minimal Brigadier command
 - [x] JUnit lifecycle tests and CI workflow
-- [ ] Add/verify Gradle Wrapper and clean build
+- [x] Add Gradle Wrapper 9.2.1 and verify clean build in GitHub Actions
 - [ ] Verify plugin startup and command on a real Paper 26.3 server
 - [ ] Confirm repository LICENSE with maintainer
 ## P2 — Runtime
