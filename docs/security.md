@@ -28,7 +28,8 @@ The GitHub connector used for repository changes cannot enable repository securi
 2. Enable **Dependabot alerts**.
 3. Enable **Dependabot security updates**.
 4. Enable **Secret scanning** and alerts, if the controls are available for the repository.
-5. Enable **Push protection** for the repository if the account/repository plan exposes it.\n6. Confirm CodeQL is configured in exactly one mode: the advanced workflow in this repository or GitHub's default setup, not both.
+5. Enable **Push protection** for the repository if the account/repository plan exposes it.
+6. Confirm CodeQL is configured in exactly one mode: the advanced workflow in this repository or GitHub's default setup, not both.
 
 GitHub documents secret scanning as free for public repositories. Dependency graph and Dependabot alerts are not necessarily enabled by default for public repositories; the dependency submission workflow requires the dependency graph feature to be enabled before it can populate the graph.
 
