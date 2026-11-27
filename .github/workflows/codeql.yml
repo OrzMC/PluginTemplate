@@ -46,10 +46,10 @@ jobs:
         # Prevent FROM-CACHE compilation: CodeQL must observe javac invocations.
         run: ./gradlew --no-daemon --no-build-cache --rerun-tasks clean check build
 
-      # Fork PRs receive a read-only GITHUB_TOKEN. Keep analysis available,
-      # but only upload SARIF when the workflow has repository write access.
+      # Fork PRs receive a read-only GITHUB_TOKEN. Run queries there, but
+      # disable SARIF upload; trusted events upload results normally.
       - name: Perform CodeQL analysis
-        if: ${{ github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository }}
         uses: github/codeql-action/analyze@v4
         with:
           category: "/language:java-kotlin"
+          upload: ${{ (github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name != github.repository) && 'never' || 'always' }}
