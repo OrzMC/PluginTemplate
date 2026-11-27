@@ -23,7 +23,7 @@ P2.0 架构设计见 [docs/p2-runtime-design.md](p2-runtime-design.md)。建议�
 
 ## P3 — Quality
 
-- [ ] MockBukkit integration tests
+- [x] Paper 26.3 MockBukkit integration test for listener registration and ResourceScope-driven unregistration; skipped MockBukkit tests fail the build and JUnit XML/HTML reports are retained (PR #17; Paper API test runtime pinned to MockBukkit's matching build)
 - [x] Real Paper smoke runner + EULA-gated GitHub Actions job; five real Paper smoke runs passed (CI Runs #61–#65)
 - [x] Daily latest-STABLE Paper 26.3 workflow implemented; first scheduled execution pending ([nightly workflow](../.github/workflows/nightly-paper.yml), [operations](nightly-paper.md))
 - [x] At least 5 successful real Paper smoke runs; startup timeout, command-response timeout, EULA denial and forced process cleanup covered by regression tests (PR #14/#15)
