@@ -194,7 +194,7 @@ PR build/unit tests remain available regardless of the EULA gate. Nightly latest
 | Step | Scope | Exit condition |
 |---|---|---|
 | P2.0 | This architecture and CI design | Maintainer review of config, ownership, command and scheduler contracts |
-| P2.1 | ResourceScope + lifecycle hardening | **Completed**: PR #4 merged; CI Run #41 passed, including rollback and cleanup tests |\n| P2.2 | Typed config + validation + migration | **Completed**: PR #6 merged (`a21fe30`); CI Run #45 passed (Gradle Verify, JAR inspection, artifact upload) |
+| P2.1 | ResourceScope + lifecycle hardening | **Completed**: PR #4 merged; CI Run #41 passed, including rollback and cleanup tests |\n| P2.2 | Typed config + validation + migration | **Completed**: PR #6 merged (`a21fe30`); CI Run #45 passed (Gradle Verify, JAR inspection, artifact upload) |\n| P2.3 | Listener ownership + permission-aware command helpers | Implementation in progress: module-scoped Paper listener registrar, centralized permission nodes and `/template reload` |
 | P2.2 | Typed configuration and migration | Next: transactional load/reload and migration tests |
 | P2.3 | Listener ownership + command/permission helpers | Registration cleanup and command integration tests pass |
 | P2.4 | Scheduler ports + Paper adapter | Fake tests and real Paper smoke pass |
