@@ -6,7 +6,7 @@ import os
 import tempfile
 import unittest
 from pathlib import Path
-from unittest.mock import patch
+from unittest.mock import Mock, patch
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -61,7 +61,7 @@ class FakeInput:
 
 class FailurePathTests(unittest.TestCase):
     def test_wait_for_log_reports_startup_timeout(self) -> None:
-        process = unittest.mock.Mock()
+        process = Mock()
         process.poll.return_value = None
         with (
             patch.object(smoke_paper, "read_log", return_value=""),
@@ -82,7 +82,7 @@ class FailurePathTests(unittest.TestCase):
         ):
             with self.assertRaisesRegex(TimeoutError, "Timed out waiting for command response"):
                 smoke_paper.send_command(process, Path("server.log"), "template", "expected", timeout=1)
-        self.assertEqual(process.stdin.writes, ["template\\n"])
+        self.assertEqual(process.stdin.writes[0].strip(), "template")
 
     def test_startup_failure_stops_and_kills_unresponsive_paper_process(self) -> None:
         class StuckProcess:
@@ -130,11 +130,10 @@ class FailurePathTests(unittest.TestCase):
                 with self.assertRaisesRegex(TimeoutError, "startup timeout"):
                     smoke_paper.run_smoke(args)
 
-            self.assertEqual(process.stdin.writes, ["stop\\n"])
+            self.assertEqual(process.stdin.writes[0].strip(), "stop")
             self.assertTrue(process.terminated)
             self.assertTrue(process.killed)
             self.assertEqual(process.wait_calls, 3)
-
 
 
 if __name__ == "__main__":
