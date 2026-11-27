@@ -6,7 +6,7 @@
 - [x] Core lifecycle contract and rollback-capable module manager
 - [x] Traditional plugin.yml and minimal Brigadier command
 - [x] JUnit lifecycle tests and CI workflow
-- [x] Add Gradle Wrapper 9.2.1 and verify clean build in GitHub Actions
+- [x] Add Gradle Wrapper 9.9.2 and verify clean build in GitHub Actions
 - [x] Verify plugin startup and command on a real Paper 26.3 server ([acceptance procedure](real-server-acceptance.md), [record](real-server-acceptance.md#final-verdict))
 - [x] Confirm repository LICENSE with maintainer (MIT; merged to main)
 
@@ -24,10 +24,10 @@ P2.0 架构设计见 [docs/p2-runtime-design.md](p2-runtime-design.md)。建议�
 ## P3 — Quality
 
 - [x] Paper 26.3 MockBukkit integration test for listener registration and ResourceScope-driven unregistration; skipped MockBukkit tests fail the build and JUnit XML/HTML reports are retained (PR #17; Paper API test runtime pinned to MockBukkit's matching build)
-- [x] Real Paper smoke runner + EULA-gated GitHub Actions job; five real Paper smoke runs passed (CI Runs #61–#65)
+- [x] Real Paper smoke runner + EULA-gated GitHub Actions job; real Paper smoke runs passed repeatedly (CI Runs #61–#65 and later CI runs)
 - [x] Daily latest-STABLE Paper 26.3 workflow implemented; first scheduled execution pending ([nightly workflow](../.github/workflows/nightly-paper.yml), [operations](nightly-paper.md))
 - [x] At least 5 successful real Paper smoke runs; startup timeout, command-response timeout, EULA denial and forced process cleanup covered by regression tests (PR #14/#15)
-- [ ] Verify repository-level Dependency graph, Dependabot alerts/security updates, Secret scanning and push protection settings ([security guide](security.md)); automated dependency submission and weekly version updates are implemented in PR #19
+- [x] Add advanced CodeQL Java/Kotlin analysis workflow with manual Gradle build, PR/main/weekly triggers and fork-safe SARIF upload (this PR)\n- [ ] Verify repository-level Dependency graph, Dependabot alerts/security updates, Secret scanning and push protection settings ([security guide](security.md)); automated dependency submission and weekly version updates are implemented in PR #19
 
 ## P4 — Initialization and release
 
