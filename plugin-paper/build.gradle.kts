@@ -25,7 +25,7 @@ dependencies {
     // MockBukkit validates the Paper API's version-specific registries at startup.
     // Keep this exact API build aligned with the MockBukkit artifact's Paper-Version manifest.
     testImplementation("io.papermc.paper:paper-api:${providers.gradleProperty("mockBukkitPaperApiVersion").get()}")
-    testImplementation("org.mockbukkit.mockbukkit:mockbukkit-v26.3:4.118.0")
+    testImplementation("org.mockbukkit.mockbukkit:mockbukkit-v26.3:4.124.0")
 }
 
 tasks.processResources {
