@@ -6,6 +6,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import os
 import shutil
 import subprocess
 import sys
@@ -169,8 +170,10 @@ def run_smoke(args: argparse.Namespace) -> dict[str, Any]:
     # Probe before generating eula.txt; a broken/unsupported --help must not hang CI.
     paper_help = probe_paper_help(paper_jar, work_dir)
 
-    # The maintainer's one-time repository variable is checked by the workflow.
-    # This file only records that authorized choice for this disposable runner.
+    # Defense in depth: the workflow job gate is authoritative, and the runner
+    # itself also fails closed if invoked outside that authorized job.
+    if os.environ.get("MINECRAFT_EULA_ACCEPTED") != "true":
+        raise RuntimeError("EULA not authorized: set MINECRAFT_EULA_ACCEPTED=true only after accepting the Minecraft EULA")
     (work_dir / "eula.txt").write_text("eula=true\n", encoding="utf-8")
     (work_dir / "server.properties").write_text(
         "\n".join(
@@ -204,7 +207,7 @@ def run_smoke(args: argparse.Namespace) -> dict[str, Any]:
             "server_properties": {"server-ip": "127.0.0.1", "server-port": 25565, "online-mode": False, "enable-rcon": False, "enable-query": False},
             "eula_file_generated_after_workflow_authorization": True,
         },
-        "checks": {"paper_help_probe_completed": True},
+        "checks": {"paper_help_probe_returned": "timed_out" not in paper_help},
     }
     process: subprocess.Popen[str] | None = None
 
