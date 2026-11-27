@@ -44,9 +44,10 @@ tasks.withType<Test>().configureEach {
             if (result.testCount == 0) {
                 throw GradleException("Paper integration test suite discovered no tests.")
             }
-            if (result.skippedTestCount > 0) {
+            val skippedTests = result.testCount - result.successfulTestCount - result.failedTestCount
+            if (skippedTests > 0) {
                 throw GradleException(
-                    "Paper integration test suite contains ${result.skippedTestCount} skipped tests; " +
+                    "Paper integration test suite contains $skippedTests skipped tests; " +
                         "MockBukkit unsupported operations must be handled explicitly."
                 )
             }
