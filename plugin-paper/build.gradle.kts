@@ -1,4 +1,5 @@
 import org.gradle.api.tasks.SourceSetContainer
+import org.gradle.api.tasks.testing.Test
 
 plugins {
     id("java")
@@ -32,4 +33,23 @@ tasks.processResources {
 tasks.jar {
     archiveBaseName.set("OrzMCPluginTemplate")
     from(coreMainOutput)
+}
+
+tasks.withType<Test>().configureEach {
+    testLogging {
+        events("passed", "skipped", "failed")
+    }
+    afterSuite { descriptor, result ->
+        if (descriptor.parent == null) {
+            if (result.testCount == 0) {
+                throw GradleException("Paper integration test suite discovered no tests.")
+            }
+            if (result.skippedTestCount > 0) {
+                throw GradleException(
+                    "Paper integration test suite contains ${result.skippedTestCount} skipped tests; " +
+                        "MockBukkit unsupported operations must be handled explicitly."
+                )
+            }
+        }
+    }
 }
