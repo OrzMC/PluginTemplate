@@ -7,3 +7,8 @@
 - Commands use traditional `plugin.yml` and the main plugin's Paper Lifecycle API + Brigadier registration.
 - This baseline has no scheduler abstraction and makes no Folia compatibility claim.
 - Typed config, event ownership, permission helpers and scheduler adapters are deferred until designed and tested.
+
+
+## P2 runtime design
+
+The proposed P2 contracts for resource ownership, typed configuration, command/permission boundaries and explicit scheduler semantics are documented in [p2-runtime-design.md](p2-runtime-design.md). Treat that document as a design proposal until the maintainer review is complete; do not implement Folia support or add a Folia metadata declaration based on this document alone.

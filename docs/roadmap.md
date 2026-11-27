@@ -7,7 +7,7 @@
 - [x] Add Gradle Wrapper 9.2.1 and verify clean build in GitHub Actions
 - [x] Verify plugin startup and command on a real Paper 26.3 server ([acceptance procedure](real-server-acceptance.md), [record](real-server-acceptance.md#final-verdict))
 - [x] Confirm repository LICENSE with maintainer (MIT; merged to main)
-## P2 — Runtime
+## P2 — Runtime\n\nP2.0 架构设计草案见 [docs/p2-runtime-design.md](p2-runtime-design.md)。建议顺序：资源所有权/生命周期 → 类型化配置 → Listener 与命令 → Scheduler Paper 适配 →（有证据后）Folia。GitHub Actions Paper smoke 设计见 [父仓库文档](https://github.com/OrzMC/OrzMC/blob/main/docs/plugin-template/github-actions-smoke.md)。
 - [ ] Typed config, validation and migration
 - [ ] Listener ownership and cleanup
 - [ ] Permission conventions and command helpers
